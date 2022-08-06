@@ -17,7 +17,7 @@ const Navbar = () => {
           <div className='btn-container'>                                             {/* inserts it into a button container, */}
             <button className='btn' onClick={() => setShowLogout(!showLogout)}>       {/* which, when clicked, shows the logout button. */}
               <FaUserCircle />                                                        {/* It includes a circle icon to indicate it's a user, */}
-              {reader}                                                                  {/* the reader name itself, and */}
+              {reader[0]}                                                                  {/* the reader name itself, and */}
               <FaCaretDown />                                                         {/* a down arrow to indicate that it can be clicked.*/}
             </button>
             <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>      {/* It also changes how it looks depending on if it has been clicked, */}

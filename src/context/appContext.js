@@ -23,6 +23,7 @@ import reducer from './reducer'                                                /
 
 const initialState = {                                                         // Sets initial state values of the app, with everything turned off 
   reader: null,                                                                //// and no one logged in.
+  role: null,
   isLoading: false,
   jobs: [],
   showAlert: false,
@@ -39,13 +40,14 @@ const AppProvider = ({ children }) => {                                       //
     dispatch({ type: SET_LOADING })
   }
 
-  // ADD READER -- THIS IS WORKING //
+  // ADD READER //
   const addReader = async (readerInput) => {                                    // Establishes readerInput as data to be passed in,
     setLoading()
     try {
       const { data } = await axios.post(`/auth/add-reader`, {                  //// set up to be what the reader posts through /auth/add-reader. 
         ...readerInput,
       })
+//      console.log(`Client-side app-context from addReader: ` + data)          // Shows what data is visible on the client side.
       dispatch({ type: ADD_READER_SUCCESS, payload: data.reader.name })    // If it works, it sets the name variable of the reader,
       localStorage.setItem(                                                 //// puts it in the local browser storage, and
         'reader',
@@ -63,11 +65,15 @@ const AppProvider = ({ children }) => {                                       //
       const { data } = await axios.post(`/auth/login`, {                    //// set up to be what the reader posts through /auth/login.
         ...readerInput,
       })
-      dispatch({ type: ADD_READER_SUCCESS, payload: data.reader.name })    // If it works, it sets the name variable of the reader, 
+//      console.log(`Client-side app-context from login: ` + JSON.stringify(data.reader))          // Shows what data is visible on the client side.
+      const loginPayload = [data.reader.name, data.reader.role]
+//      console.log(`Client-side app-context role: ` + loginPayload[0])          // Shows what data is visible on the client side.
+//      console.log(`Client-side app-context role: ` + loginPayload[1])          // Shows what data is visible on the client side.
+      dispatch({ type: ADD_READER_SUCCESS, payload: loginPayload })    // If it works, it sets the name variable of the reader, 
       localStorage.setItem(                                                 //// puts it in the local browser storage, and
         'reader',
-        JSON.stringify({ name: data.reader.name, token: data.token })         //// stringifies it together with the token.
-      )
+        JSON.stringify({ name: data.reader.name, token: data.token }),         //// stringifies it together with the token.
+        ) 
     } catch (error) {                                                       //// Otherwise, it throws an error.
       dispatch({ type: ADD_READER_ERROR })
     }

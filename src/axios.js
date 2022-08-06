@@ -2,7 +2,7 @@
 //////// IF THERE IS A READER IN LOCAL STORAGE, IT PARSES IT AND SETS THE TOKEN IN THE HEADER FOR AUTHORIZATION. ////////
 
 import axios from 'axios';
-axios.defaults.baseURL = 'https://acolyte-submissions-api.heroku.com/api/v1';
+axios.defaults.baseURL = 'http://localhost:5000/api/v1';
 
 axios.interceptors.request.use(function (req) {
   const reader = localStorage.getItem('reader');

@@ -8,10 +8,13 @@ import { Redirect } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 function Home() {
   const { reader } = useGlobalContext();
-//  console.log(`client-side Home.js reader: ` + JSON.stringify(useGlobalContext()))   // SHOWS THE READER STATE. 
+  const readerArray = []
   return (                                                                           //// STARTS WITH INITIAL STATE DEFINED IN APP/APPCONTEXT.JS, WITH EVERYTHING FALSE, EMPTY, NULL.
     <>
-      {reader && <Redirect to='/dashboard' />}                                       {/*///// BUT IF SOMEONE IS LOGGED IN, REDIRECTS TO DASHBOARD. */}                           
+{/*         {console.log(`client-side Home.js reader: ` + JSON.stringify(useGlobalContext()))}*/}
+      {Array.isArray(reader) ? readerArray.push(reader[0], reader[1]) : void(0)}
+      {readerArray[1] === 'chiefEditor' ? readerArray[0] && <Redirect to='/dashboard-full' /> : readerArray[0] && <Redirect to='/dashboard' /> }
+{/*      {reader && <Redirect to='/dashboard' />}     */}                                  {/*///// BUT IF SOMEONE IS LOGGED IN, REDIRECTS TO DASHBOARD. */}                           
       <Wrapper>
         <nav>
           <img src={logo} alt='acolyte submissions app' />
@@ -24,7 +27,7 @@ function Home() {
               that are using this submission system, a logo or two, how-tos and guides, etc. Plus probably something that lets you log in to your specific magazine.
             </p>
 
-            <Link to='/add-reader' className='btn hero-btn'>
+            <Link to='/login' className='btn hero-btn'>
               Login
             </Link>
           </div>

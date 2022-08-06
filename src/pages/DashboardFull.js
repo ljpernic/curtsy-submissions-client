@@ -1,13 +1,14 @@
-//////// THIS IS THE DASHBOARD AFTER LOGGING IN. ////////
+//////// THIS IS THE HIGHEST-LEVEL DASHBOARD. ////////
 
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useGlobalContext } from '../context/appContext';
 import FormRow from '../components/FormRow';
 import Navbar from '../components/Navbar';
 import Jobs from '../components/Jobs';
 
-function Dashboard() {
+function DashboardFull() {
   const [values, setValues] = useState({ company: '', position: '' });
 
   const handleChange = (e) => {
@@ -62,6 +63,9 @@ function Dashboard() {
         </form>
 
         <Jobs />
+        <Link to='/add-reader' className='btn hero-btn'>
+              Add Reader
+            </Link>
       </Wrapper>
     </>
   );
@@ -107,4 +111,4 @@ const Wrapper = styled.section`
   }
 `;
 
-export default Dashboard;
+export default DashboardFull;

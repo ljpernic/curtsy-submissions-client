@@ -7,13 +7,12 @@ import { Redirect } from 'react-router-dom';
 import FormRow from '../components/FormRow';
 import logo from '../assets/logo.svg';
 
-function AddReader() {
+function Login() {
   const [values, setValues] = useState({
     name: '',
     email: '',
     password: '',
-    changeLink: ['/add-reader', '/dashboard-full'],
-    isMember: false,
+    isMember: true,
   });
 
   const { reader, addReader, login, isLoading, showAlert } = useGlobalContext();
@@ -25,34 +24,19 @@ function AddReader() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    const { name, email, password, changeLink, isMember } = values;
-    setValues({ ...values, changeLink: ['/dashboard-full', '/add-reader'] });
+    const { name, email, password, isMember } = values;
     if (isMember) {
       login({ email, password });
     } else {
-      addReader({ name, email, password, changeLink });
+      addReader({ name, email, password });
     }
   };
   const readerArray = []
-
-//   const ChangeLink = () => {
-//   if (readerArray[1] === 'chiefEditor'){
-//     <Redirect to={changeLink[0]} />
-//     console.log(changeLink[0])
-//     changeLink.pop()
-//     changeLink.push('/dashboard-full')
-//     console.log(changeLink[0])
-//   } else if (readerArray[1] === 'middleEditor' || 'subEditor') {
-//     <Redirect to='/dashboard' />     
-//   } else {
-//     <Redirect to='/' />
-//   }
-// };
-
   return (
     <>
       {Array.isArray(reader) ? readerArray.push(reader[0], reader[1]) : void(0)}
-      {reader && <Redirect to={values.changeLink[0]} />}
+      {readerArray[1] === 'chiefEditor' ? readerArray[0] && <Redirect to='/dashboard-full' /> : readerArray[0] && <Redirect to='/dashboard' /> }
+{/*      {readerArray[0] && <Redirect to='/dashboard' />} */}
       <Wrapper className='page full-page'>
         <div className='container'>
           {showAlert && (
@@ -62,7 +46,7 @@ function AddReader() {
           )}
           <form className='form' onSubmit={onSubmit}>
             <img src={logo} alt='Acolyte Submission System' className='logo' />
-            <h4>{values.isMember ? 'Login' : 'Add Reader'}</h4>
+            <h4>Login</h4>
             {/* name field */}
             {!values.isMember && (
               <FormRow
@@ -96,17 +80,6 @@ function AddReader() {
             >
               {isLoading ? 'Fetching Reader...' : 'Submit'}
             </button>
-            <p>
-              {values.isMember ? 'Not a member yet?' : 'Already a member?'}
-
-              <button
-                type='button'
-                onClick={toggleMember}
-                className='member-btn'
-              >
-                {values.isMember ? 'Add Reader' : 'Login'}
-              </button>
-            </p>
           </form>
         </div>
       </Wrapper>
@@ -146,4 +119,4 @@ const Wrapper = styled.section`
   }
 `;
 
-export default AddReader;
+export default Login;

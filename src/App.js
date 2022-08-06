@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Home, Dashboard, AddReader, Edit, Error, PrivateRoute } from './pages';
+import { Home, Dashboard, DashboardFull, Login, AddReader, Edit, Error, PrivateRoute } from './pages';
 import Navbar from './components/Navbar';
 function App() {
   return (
@@ -8,12 +8,18 @@ function App() {
         <Route path='/' exact>
           <Home />
         </Route>
-        <PrivateRoute path='/dashboard' exact>
+        <PrivateRoute path='/dashboard'>
           <Dashboard />
         </PrivateRoute>
-        <Route path='/add-reader'>
-          <AddReader />
+        <PrivateRoute path='/dashboard-full'>
+          <DashboardFull />
+        </PrivateRoute>
+        <Route path='/login'>
+          <Login />
         </Route>
+        <PrivateRoute path='/add-reader' exact>
+          <AddReader />
+        </PrivateRoute>
         <Route path='/edit/:id'>
           <Edit />
         </Route>
